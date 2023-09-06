@@ -1,0 +1,40 @@
+import requests
+from bs4 import BeautifulSoup
+from textblob import TextBlob
+
+# Function to scrape and analyze a news article
+def analyze_article(url):
+    try:
+        # Send an HTTP GET request to the article URL
+        response = requests.get(url)
+
+        if response.status_code == 200:
+            # Parse the HTML content
+            soup = BeautifulSoup(response.text, 'html.parser')
+            
+            # Extract the article text
+            article_text = ""
+            for paragraph in soup.find_all('p'):
+                article_text += paragraph.get_text()
+
+            # Perform sentiment analysis
+            Sentiment = TextBlob(article_text).sentiment
+            sentiment_score = Sentiment.polarity
+
+            return article_text, sentiment_score
+        else:
+            return None, None
+
+    except Exception as e:
+        print(f"Error analyzing article: {e}")
+        return None, None
+
+# Example usage
+article_url = 'https://www.bbc.com/news/blogs-trending-64223574'
+article_text, sentiment_score = analyze_article(article_url)
+
+if article_text is not None:
+    print(f"Article Text: {article_text}")
+    print(f"Sentiment Score: {sentiment_score}")
+else:
+    print("Failed to retrieve and analyze the article.")
