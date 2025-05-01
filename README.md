@@ -49,55 +49,6 @@ L_j=\left\{\begin{matrix}\frac{1}{2}\left(y_j-Q\left(S_j,A_j,\theta_o\right)\rig
 
 Backpropagation and stochastic gradient descent drive the neural network towards convergence to an optimal policy.<br>
 
-### Replay Buffer
-One of the important aspects of reading environment states from frames of a videogame is that consecutive frames are very similar. That is, the difference between neighbouring states may be subtle, and the correlation between them could be very high. Whereas training of a deep neural network requires a large amount of independent identically distributed data samples. Learning on highly correlated data is inefficient and infuses biases into a model. One of the major innovations introduced by the original DQN paper is the concept of experience replay. This mechanism involves storing past experiences in a replay memory buffer, enabling the agent to break temporal correlations between consecutive experiences. During training, random minibatches of experiences are sampled from this buffer, enhancing the stability of the learning process.<br>
-
-
-# Results
-
-### Training
-The training was carried out for 3000 game episodes for each model. In its maximum length, an episode consists of 1000 frames, and, considering the mentioned frame-skipping method, agents can take up to 250 actions per episode at maximum. Therewith, an episode could be terminated earlier if all the track tiles are collected i.e., the game end goal is achieved, or an agent goes beyond the game defined area.<br>
-
-<p align='center'>
-<img src='./readme_images/training_DQN.jpg' width=45%>
-<img src='./readme_images/training_DDQN.jpg' width=45%>
-<img src='./readme_images/training_both.jpg' width=50%>
-</p>
-
-Training statistics of DQN and DDQN models.
-<p align='center'>
-
-Model | Number of episodes | Number of taken actions
-| :------: | :------: | :------: |
-DQN | 3000 | 740188 
-DDQN | 3000 | 743550
-
-</p>
-
-### Evaluation
-The evaluation was performed on 50 game episodes. Each of 50 episodes represents a racetrack of unique configuration, but the set of tracks was common for DQN and DDQN. So, the models were tested in exactly the same environment.<br>
-
-<p align='center'>
-<img src='./readme_images/eval_plot.jpg' width=70%>
-</p>
-
-Performance evaluation of DQN and DDQN models. Statistics of the reward over 50 episodes.
-<p align='center'>
-
-Model | Completed episodes | Minimum | Maximum | Median | Mean | Standard Deviation
-| :------: | :------: | :------: | :------: | :------: | :------: | :------: |
-DQN | 48% | 679.37 | 931.60 | 897.03 | 898.17 | 35.54
-DDQN | 24% | 392.40 | 926.00 | 880.06 | 830.16 | 118.85
-
-</p>
-
-The obtained results of training and evaluation allow to conclude that the maximization bias of DQN approach does not exhibits itself at early stages of training and leave the results unaffected. During the training phase, the DQN model advances in performance, reaches the stable value of high reward and maintains it until the very end of process. The decrease which is usually inherent to maximization error is not observed here. This type of error has a cumulative characteristic, it grows as the training proceeds. By the achieved point, the critical value of it is not reached, so the performance remains uninfluenced. At the same time, an optimistic action estimate enables faster approaching the target action value, while conservative action value estimate of DDQN results in a slight lagging behind in terms of developed performance.<br>
-
-# Code Usage Instructions
-1. Install all the libraries from the requirements.
-2. Modify model parameters and saving paths in the model. 
-2. Run the import code cell.
-3. Run a task specific code cell.
 
 # References
 [1] V. Mnih et al., "Human-level control through deep reinforcement learning”, Nature, vol. 518, pp. 529–533, 2015. DOI: 10.1038/nature14236.<br>
