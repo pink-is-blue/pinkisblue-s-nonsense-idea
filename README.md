@@ -36,16 +36,11 @@ $$A_j^\prime={\rm argmax}_{a^\prime}\ Q\left(S_j^\prime,a^\prime,\theta_o\right)
 
 Then the next state is evaluated by the target network, and, from the set of produced action values, the value corresponding to the chosen action is used to calculate the target value of the current action.<br>
 
-```math
-y_j^{DDQN}=\left\{\begin{matrix}R_j&ifS_j^\prime\ is\ terminal\\R_j+\gamma Q\left(S_j^\prime,A_j^\prime,\theta_t\right)&otherwise\\\end{matrix}\right.
-```
 
 As it can be observed, the maximization bias is eliminated from the value estimation of the current action in this case. Moreover, whilst the double Q-learning tabular method requires having a second action estimate, DDQN does not introduce additional complexity in the DQN algorithm because DQN is built on two networks itself.<br>
 
 Further loss calculation is performed in the same way regardless of the algorithm. The loss is calculated as L1 smooth loss with β parameter equal to 1.<br>
-```math
-L_j=\left\{\begin{matrix}\frac{1}{2}\left(y_j-Q\left(S_j,A_j,\theta_o\right)\right)^2&if\ \left|y_j-Q\left(S_j,A_j,\theta_o\right)\right|<1\\\left|y_j-Q\left(S_j,A_j,\theta_o\right)\right|-\frac{1}{2}&otherwise\\\end{matrix}\right.
-```
+
 
 Backpropagation and stochastic gradient descent drive the neural network towards convergence to an optimal policy.<br>
 
